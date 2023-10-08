@@ -1,37 +1,38 @@
-const minFirstNumber = document.querySelector("#minFirstNumber");
-const minSecondNumber = document.querySelector("#minSecondNumber");
-const minBtn = document.querySelector("#minBtn");
+const timerNumberWrapper = document.querySelector(".timer__number");
+const timerStartBtn = document.querySelector("#startBtn");
+const timerStopBtn = document.querySelector("#stopBtn");
 
-minBtn.addEventListener("click", () => {
-  if (minFirstNumber.value > minSecondNumber.value) {
-    alert(minSecondNumber.value);
-  } else if (minFirstNumber.value < minSecondNumber.value) {
-    alert(minFirstNumber.value);
-  } else {
-    alert("Числа рівні");
-  }
+let timerNumber = 0;
+timerNumberWrapper.innerHTML = timerNumber;
+
+function timerCounter() {
+  showStopBtn();
+  timerNumber++;
+  timerNumberWrapper.innerHTML = timerNumber;
+}
+
+function showStopBtn() {
+  timerStopBtn.classList.remove("hide");
+}
+
+function timerStop() {
+  clearInterval(timerInterval);
+  timerNumber = 0;
+  timerNumberWrapper.innerHTML = timerNumber;
+  timerStopBtn.classList.add("hide");
+  timerStartBtn.removeAttribute("disabled", "disabled");
+}
+
+function timerTiming() {
+  timerInterval = setInterval(timerCounter, 500);
+  timerStopBtn.classList.remove("hide");
+}
+
+timerStartBtn.addEventListener("click", () => {
+  timerTiming();
+  timerStartBtn.setAttribute("disabled", "disabled");
 });
 
-const powFirstNumber = document.querySelector("#powFirstNumber");
-const powSecondNumber = document.querySelector("#powSecondNumber");
-const powBtn = document.querySelector("#powBtn");
-
-powBtn.addEventListener("click", () => {
-  let resault = 1;
-  for (let i = 0; i < powSecondNumber.value; i++) {
-    resault *= powFirstNumber.value;
-  }
-  alert(resault);
-});
-
-const fibNumber = document.querySelector("#fibNumber");
-const fibBtn = document.querySelector("#fibBtn");
-
-let fibonacci = [0, 1];
-
-fibBtn.addEventListener("click", () => {
-  for (i = 2; i < fibNumber.value; i++) {
-    fibonacci[i] = fibonacci[i - 1] + fibonacci[i - 2];
-  }
-  alert(fibonacci.slice(0, fibNumber.value));
+timerStopBtn.addEventListener("click", () => {
+  timerStop();
 });
